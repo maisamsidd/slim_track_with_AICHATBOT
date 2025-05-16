@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "256912653014",
+    "project_id": "slim-track-4ba39",
+    "storage_bucket": "slim-track-4ba39.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256912653014:android:0c82bce953ede71b3c6777",
+        "android_client_info": {
+          "package_name": "com.example.silm_track_app_new"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCqrqErc4_45Fas5qUj7Hw1XKnOoJtTwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
