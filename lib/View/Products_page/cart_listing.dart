@@ -28,7 +28,7 @@ class _CartListingState extends State<CartListing> {
     final userId = auth.currentUser!.uid;
     final cartItemsStream =
         FirebaseFirestore.instance
-            .collection("cartItems")
+            .collection("user")
             .doc(userId)
             .collection("items")
             .snapshots();

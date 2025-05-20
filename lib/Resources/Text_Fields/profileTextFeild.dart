@@ -13,7 +13,7 @@ class Profiletextfeild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200, // Adjust the width as needed
+      width: 170, // Adjust the width as needed
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
         child: TextFormField(

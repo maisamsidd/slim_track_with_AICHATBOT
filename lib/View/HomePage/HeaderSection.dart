@@ -8,6 +8,16 @@ class Headersection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = Apis.user;
+
+    // Optional: redirect to login if user is null (defensive)
+    if (currentUser == null) {
+      Future.microtask(() {
+        Get.offAll(() => const LoginPage());
+      });
+      return const SizedBox(); // empty widget temporarily
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -16,10 +26,10 @@ class Headersection extends StatelessWidget {
             // Get.to(() => const PersonalInfo());
           },
           child: CircleAvatar(
-            radius: 50,
+            radius: 40,
             backgroundImage:
-                Apis.user.photoURL != null
-                    ? NetworkImage(Apis.user.photoURL.toString())
+                currentUser.photoURL != null
+                    ? NetworkImage(currentUser.photoURL!)
                     : const AssetImage("assets/images/user_image.png")
                         as ImageProvider,
           ),
@@ -36,7 +46,7 @@ class Headersection extends StatelessWidget {
                 ),
                 const SizedBox(width: 5),
                 Text(
-                  Apis.user.displayName.toString(),
+                  currentUser.displayName?.split(" ")[0] ?? "User",
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -49,10 +59,9 @@ class Headersection extends StatelessWidget {
               style: TextStyle(fontSize: 14),
             ),
             GestureDetector(
-              onTap: () {
-                Apis.auth.signOut();
-
-                Get.to(() => const LoginPage());
+              onTap: () async {
+                await Apis.auth.signOut();
+                Get.offAll(() => const LoginPage());
               },
               child: const Text(
                 "Logout",

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:silm_track_app_new/View/HomePage/HomePage.dart';
+import 'package:silm_track_app_new/View/ProfileCreationPage.dart';
+import 'package:silm_track_app_new/View/SplashScreen.dart';
 import 'package:silm_track_app_new/firebase_options.dart';
 
 late Size mq;
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(debugShowCheckedModeBanner: false, home: Homepage());
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Splashscreen(),
+    );
   }
 }

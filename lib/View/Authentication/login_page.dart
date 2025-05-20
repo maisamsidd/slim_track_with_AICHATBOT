@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:silm_track_app_new/Resources/App_colors.dart/app_colors.dart';
 import 'package:silm_track_app_new/View/HomePage/HomePage.dart';
+import 'package:silm_track_app_new/View/ProfileCreationPage.dart';
 import 'package:silm_track_app_new/main.dart';
 import 'package:silm_track_app_new/utils/Dialogs/dialog.dart';
 import 'package:silm_track_app_new/utils/apis/apis.dart';
@@ -19,21 +21,21 @@ class _LoginPageState extends State<LoginPage> {
   void googleSignInButton() async {
     Dialogs.showProgressBar(context);
     signInWithGoogle().then((user) async {
+      Navigator.pop(context);
       if (user != null) {
-        Navigator.pop(context);
-        print(user.additionalUserInfo.toString());
         if (await Apis.userExist()) {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const Homepage()),
+            MaterialPageRoute(builder: (context) => ProfileBuildPage()),
           );
-        } else {
-          Apis.createUser().then(
-            (onValue) => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Homepage()),
-            ),
-          );
+          // } else {
+          //   Apis.createUser().then(
+          //     (_) => Navigator.pushReplacement(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => const Homepage()),
+          //     ),
+          //   );
+          // }
         }
       }
     });
@@ -42,20 +44,15 @@ class _LoginPageState extends State<LoginPage> {
   Future<UserCredential?> signInWithGoogle() async {
     try {
       await InternetAddress.lookup("google.com");
-      // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
 
-      // Create a new credential
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
 
-      // Once signed in, return the UserCredential
       return await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
       print("Error $e");
@@ -66,34 +63,64 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     mq = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(title: const Text("Welcome to SmitE's chat app")),
-      body: Stack(
-        children: [
-          Positioned(
-            top: mq.height * .15,
-            left: mq.width * .25,
-            width: mq.width * .5,
 
-            // child: Image.asset("assets/images/chat.png"),
-            child: Icon(Icons.home),
-          ),
-
-          Positioned(
-            top: mq.height * .7,
-            left: mq.width * .1,
-
-            child: TextButton(
-              onPressed: () {
-                googleSignInButton();
-              },
-              child: const Text(
-                "Sign in with google",
-                style: TextStyle(fontSize: 35),
-              ),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF43CEA2), Color(0xFF185A9D)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
-        ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Welcome to",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.white,
+                ),
+              ),
+              const SizedBox(height: 5),
+              const Text(
+                "Slim Track App",
+                style: TextStyle(
+                  fontSize: 34,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.white,
+                  letterSpacing: 1.2,
+                ),
+              ),
+              const SizedBox(height: 40),
+              Image.asset("assets/images/splash_image.png"),
+              const SizedBox(height: 60),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black87,
+                  minimumSize: Size(mq.width * 0.8, 50),
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onPressed: googleSignInButton,
+                icon: Icon(Icons.login_rounded, size: 28),
+                label: const Text(
+                  "Sign in with Google",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
