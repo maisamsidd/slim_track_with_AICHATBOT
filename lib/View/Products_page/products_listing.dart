@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:silm_track_app_new/Model/product_listing.dart';
 import 'package:silm_track_app_new/Resources/App_colors.dart/app_colors.dart';
+import 'package:silm_track_app_new/Resources/BottomNavBar/bottomnavbar.dart';
 import 'package:silm_track_app_new/Resources/Buttons/buy_and_cart_button.dart';
 import 'package:silm_track_app_new/View/Products_page/cart_listing.dart';
 import 'package:silm_track_app_new/View/Products_page/item_info.dart';
@@ -401,6 +402,7 @@ class _ListingOfProductsState extends State<ListingOfProducts> {
           ],
         ),
       ),
+      bottomNavigationBar: MyBottomNavBar(),
     );
   }
 }

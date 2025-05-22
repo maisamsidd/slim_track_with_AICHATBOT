@@ -139,7 +139,7 @@ class _ProfileBuildPageState extends State<ProfileBuildPage> {
                     "currentWeight": "0",
                   });
 
-                  Get.to(() => const Homepage());
+                  Get.to(() => const HomePage());
                 },
                 firstText: "Continue",
                 secondText: "Saving...",

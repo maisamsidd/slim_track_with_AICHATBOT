@@ -3,6 +3,8 @@ import 'package:silm_track_app_new/Resources/App_colors.dart/app_colors.dart';
 import 'package:silm_track_app_new/View/HomePage/HomePage.dart';
 import 'package:silm_track_app_new/View/Products_page/cart_listing.dart';
 import 'package:silm_track_app_new/View/Products_page/products_listing.dart';
+import 'package:silm_track_app_new/View/ProfilePage/profile_page.dart';
+import 'package:silm_track_app_new/View/secret_gem.dart';
 import 'package:silm_track_app_new/main.dart';
 
 class MyBottomNavBar extends StatelessWidget {
@@ -27,7 +29,7 @@ class MyBottomNavBar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Homepage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                 );
               },
               icon: const Icon(Icons.home, color: Colors.white),
@@ -47,16 +49,16 @@ class MyBottomNavBar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CartListing()),
+                  MaterialPageRoute(builder: (context) => SecretGem()),
                 );
               },
-              icon: const Icon(Icons.shopping_cart, color: Colors.white),
+              icon: const Icon(Icons.explore, color: Colors.white),
             ),
             IconButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CartListing()),
+                  MaterialPageRoute(builder: (context) => PersonalInfo()),
                 );
               },
               icon: const Icon(Icons.person, color: Colors.white),

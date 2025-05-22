@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:silm_track_app_new/Model/cart_model.dart';
 import 'package:silm_track_app_new/Resources/App_colors.dart/app_colors.dart';
+import 'package:silm_track_app_new/Resources/BottomNavBar/bottomnavbar.dart';
 import 'package:silm_track_app_new/Resources/Buttons/Animated_button.dart';
 import 'package:flutter_paypal/flutter_paypal.dart';
 
@@ -466,6 +467,7 @@ class _CartListingState extends State<CartListing> {
           }
         },
       ),
+      bottomNavigationBar: MyBottomNavBar(),
     );
   }
 }

@@ -6,7 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:silm_track_app_new/Resources/App_colors.dart/app_colors.dart';
 import 'package:silm_track_app_new/View/HomePage/HomePage.dart';
 import 'package:silm_track_app_new/View/ProfileCreationPage.dart';
-import 'package:silm_track_app_new/main.dart';
 import 'package:silm_track_app_new/utils/Dialogs/dialog.dart';
 import 'package:silm_track_app_new/utils/apis/apis.dart';
 
@@ -18,47 +17,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  void googleSignInButton() async {
-    Dialogs.showProgressBar(context);
-    signInWithGoogle().then((user) async {
-      Navigator.pop(context);
-      if (user != null) {
-        if (await Apis.userExist()) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => ProfileBuildPage()),
-          );
-          // } else {
-          //   Apis.createUser().then(
-          //     (_) => Navigator.pushReplacement(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => const Homepage()),
-          //     ),
-          //   );
-          // }
-        }
-      }
-    });
-  }
-
-  Future<UserCredential?> signInWithGoogle() async {
-    try {
-      await InternetAddress.lookup("google.com");
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      return await FirebaseAuth.instance.signInWithCredential(credential);
-    } catch (e) {
-      print("Error $e");
-    }
-    return null;
-  }
+  late Size mq;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 onPressed: googleSignInButton,
-                icon: Icon(Icons.login_rounded, size: 28),
+                icon: const Icon(Icons.login_rounded, size: 28),
                 label: const Text(
                   "Sign in with Google",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
@@ -123,5 +82,50 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  // Sign in logic
+  void googleSignInButton() async {
+    Dialogs.showProgressBar(context);
+    UserCredential? user = await signInWithGoogle();
+    Navigator.pop(context);
+
+    if (user != null) {
+      if (await Apis.userExist()) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } else {
+        await Apis.createUser();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ProfileBuildPage()),
+        );
+      }
+    }
+  }
+
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      // Check internet
+      await InternetAddress.lookup("google.com");
+
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return null;
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      print("Google Sign-In Error: $e");
+      return null;
+    }
   }
 }

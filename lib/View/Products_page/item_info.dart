@@ -1,15 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:silm_track_app_new/Resources/BottomNavBar/bottomnavbar.dart';
 
 class ItemDetails extends StatefulWidget {
   String title;
   String image;
 
-  ItemDetails({
-    super.key,
-    required this.title,
-    required this.image,
-  });
+  ItemDetails({super.key, required this.title, required this.image});
 
   @override
   State<ItemDetails> createState() => _ItemDetailsState();
@@ -19,22 +16,13 @@ class _ItemDetailsState extends State<ItemDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(centerTitle: true, title: Text(widget.title)),
       body: Center(
         child: Column(
           children: [
-            const SizedBox(
-              height: 40,
-            ),
-            Image.asset(
-              widget.image,
-            ),
-            const SizedBox(
-              height: 40,
-            ),
+            const SizedBox(height: 40),
+            Image.asset(widget.image),
+            const SizedBox(height: 40),
             const Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
@@ -48,6 +36,7 @@ class _ItemDetailsState extends State<ItemDetails> {
           ],
         ),
       ),
+      bottomNavigationBar: MyBottomNavBar(),
     );
   }
 }
